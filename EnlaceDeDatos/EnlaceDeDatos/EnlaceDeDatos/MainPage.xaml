@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:EnlaceDeDatos"
+             mc:Ignorable="d"
+             x:Class="EnlaceDeDatos.MainPage">
+
+    <ContentPage.Resources>
+        <local:Disco x:Key="disco1" Titulo="let it be" Banda="The Beatles" />
+        <local:Datos x:Key="datos1" />
+
+        <local:PrecioConverter x:Key="PrecioConverter" />
+    </ContentPage.Resources>
+
+    <Grid BindingContext="{Binding Source={StaticResource datos1}}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Place new controls here -->
+        <!--<Label Text="{Binding Titulo,Source={StaticResource disco1},Mode=OneWay}" />
+        <Label Text="{Binding Banda,Source={StaticResource disco1},Mode=OneWay}" />-->
+
+        <ListView ItemsSource="{Binding Discos, Mode=TwoWay}"
+                  SelectedItem="{Binding DiscoSeleccionado, Mode=TwoWay}"
+                  HasUnevenRows="True"
+                  x:Name="list1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <!--<TextCell Text="{Binding Titulo}"
+                              Detail="{Binding Banda}" />-->
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{Binding Portada}"
+                                   Margin="10"
+                                   WidthRequest="200"
+                                   HeightRequest="200" />
+
+                            <StackLayout Grid.Column="1">
+                                <Label Text="{Binding Titulo}" FontSize="Large" />
+                                <Label Text="{Binding Banda}" />
+                                <Label Text="{Binding Genero}" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackLayout Grid.Row="1">
+            <Label Text="{Binding DiscoSeleccionado.Titulo, Mode=OneWay}" />
+            <Label Text="{Binding DiscoSeleccionado.Banda, Mode=OneWay}" />
+            <Label Text="{Binding SelectedItem.Genero, Source={x:Reference list1}}" />
+            <Label Text="{Binding DiscoSeleccionado.FechaLanzamiento,
+                Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}" />
+            <Label Text="{Binding DiscoSeleccionado.Precio}"
+                   TextColor="{Binding DiscoSeleccionado.Precio, Converter={StaticResource PrecioConverter}}"/>
+            <Button Text="Agregar disco"
+                Command="{Binding AgregarDiscoCommand}" />
+        </StackLayout>
+
+    </Grid>
+
+</ContentPage>
