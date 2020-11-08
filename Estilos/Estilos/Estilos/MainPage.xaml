@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Estilos.MainPage">
+
+    <ContentPage.Resources>
+        <Style x:Key="MiEstilo" TargetType="Label">
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="TextColor" Value="Red" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="OtroEstilo"
+               BasedOn="{StaticResource MiEstilo}"
+               TargetType="Label">
+            <Setter Property="RotationX" Value="40" />
+        </Style>
+
+        <Style TargetType="Entry">
+            <Style.Triggers>
+                <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+                    <Setter Property="TextColor" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EstiloBoton" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger TargetType="Button"
+                             Binding="{Binding Text.Length, Source={x:Reference entry1}}"
+                             Value="0">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
+    
+    <StackLayout>
+        <Label Text="Welcome to Xamarin.Forms!"
+               VerticalOptions="CenterAndExpand"
+               Style="{StaticResource OtroEstilo}"
+               TextColor="Gray"/>
+
+        <Button Text="Botón"
+                Style="{StaticResource EstiloBoton}"/>
+
+        <Entry />
+        <Entry />
+        <Entry x:Name="entry1"
+               Text="" />
+    </StackLayout>
+
+</ContentPage>
